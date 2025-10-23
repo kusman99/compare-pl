@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Perbandingan Harga Kain</title>
+<style>
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f4f4f8;
+  margin: 0;
+  padding: 20px;
+}
+h1 {
+  text-align: center;
+  color: #333;
+}
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+.card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  width: 300px;
+  transition: transform 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+}
+.card h2 {
+  text-align: center;
+  color: #444;
+  margin-bottom: 15px;
+}
+select {
+  width: 100%;
+  padding: 8px;
+  margin: 6px 0 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+.price {
+  font-size: 1.3em;
+  font-weight: bold;
+  text-align: center;
+  color: #1a73e8;
+}
+.summary {
+  margin-top: 30px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+.summary p {
+  font-size: 1.1em;
+}
+.highlight {
+  color: #2e7d32;
+  font-weight: bold;
+}
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+<h1>🧵 Perbandingan Harga Kain</h1>
+
+<div class="container">
+  <div class="card" id="fabriku">
+    <h2>Fabriku</h2>
+    <label>Jenis Kain:</label>
+    <select id="jenisFabriku"></select>
+    <label>Kategori Warna:</label>
+    <select id="warnaFabriku"></select>
+    <p class="price" id="hargaFabriku">Rp -</p>
+  </div>
+
+  <div class="card" id="knitto">
+    <h2>Knitto</h2>
+    <label>Jenis Kain:</label>
+    <select id="jenisKnitto"></select>
+    <label>Kategori Warna:</label>
+    <select id="warnaKnitto"></select>
+    <p class="price" id="hargaKnitto">Rp -</p>
+  </div>
+
+  <div class="card" id="nirwana">
+    <h2>Nirwana</h2>
+    <label>Jenis Kain:</label>
+    <select id="jenisNirwana"></select>
+    <label>Kategori Warna:</label>
+    <select id="warnaNirwana"></select>
+    <p class="price" id="hargaNirwana">Rp -</p>
+  </div>
+</div>
+
+<div class="summary" id="kesimpulan">
+  <p><strong>Kesimpulan:</strong></p>
+  <p>Termurah: -</p>
+  <p>Termahal: -</p>
+  <p>Selisih: -</p>
+</div>
+
+<script>
+// =========================
+// DATA FABRIKU
+// =========================
+const dataFabriku = {
+  "COT 20S|190-210|42\"": {"PUTIH": {roll: 97000}},
+  "COT 24S|170-190|42\"": {"PUTIH": {roll: 99000}},
+  "COT 30S|150-170|42\"": {"PUTIH": {roll: 100500}},
+  "CARD 24S|170-190|42\"": {"PUTIH": {roll: 90000}},
+  "ROCKY COTTON|220-240|36\"": {"PUTIH": {roll: 95500}},
+  "COT SUPREME|175-195|36\"": {"PUTIH": {roll: 102000}},
+  "PRINTING WASHED 24S|170-190|70\"": {"PUTIH": {roll: 185000}},
+  "CVC LACOSTE 20S|240-260|36\"": {"PUTIH": {roll: 91000}},
+  "CVC LACOSTE 24S|200-220|36\"": {"PUTIH": {roll: 93000}},
+  "COTTON LUX PIQUE|225|74\"": {"PUTIH": {roll: 122000}},
+  "CVC PIQUE 24S|240|45\"": {"PUTIH": {roll: 93000}},
+  "BAMBOO COT 30S|170-190|42\"": {"PUTIH": {roll: 102500}},
+  "MTIIS-MILANO UV|130-150|74\"": {"PUTIH": {roll: 89000}},
+  "MTIIS-MONTE UV|135-145|70\"": {"PUTIH": {roll: 96000}},
+  "MTIIS-DOT MICRO|130-150|70\"": {"PUTIH": {roll: 84000}},
+  "MTIIS-BENZEMA|130-150|72\"": {"PUTIH": {roll: 84000}},
+  "MTIIS-SIDO 3|140-160|72\"": {"PUTIH": {roll: 85500}},
+  "MTIIS-DIAMOND HOLE|140-160|74\"": {"PUTIH": {roll: 75000}},
+  "MTIIS-FRECKLE BOX SPDX|130-150|68\"": {"PUTIH": {roll: 104500}},
+  "MTIIS-INTERLOCK SPDX|110-130|64\"": {"PUTIH": {roll: 104500}},
+  "MTIIS-FLEXXAIR LYTE|100-110|60\"": {"PUTIH": {roll: 99000}},
+  "CVC FLEECE|270-290|72\"": {"PUTIH": {roll: 105000}},
+  "COTTON FLEECE|270-290|72\"": {"PUTIH": {roll: 110000}},
+  "COTTON FLEECE HEAVY|320-330|72\"": {"PUTIH": {roll: 110000}},
+  "COTTON ELASTECH|180-200|72\"": {"PUTIH": {roll: 120000}},
+  "DANBALL|200|64\"": {"PUTIH": {roll: 115000}},
+  "DANBALL|300|66\"": {"PUTIH": {roll: 135000}}
+};
+for (let jenis in dataFabriku) {
+  const base = dataFabriku[jenis]["PUTIH"].roll;
+  dataFabriku[jenis]["MUDA"] = { roll: base + 4000 };
+  dataFabriku[jenis]["SEDANG"] = { roll: base + 8000 };
+  dataFabriku[jenis]["TUA"] = { roll: base + 13000 };
+  dataFabriku[jenis]["TUA KHUSUS"] = { roll: base + 15000 };
+}
+
+// =========================
+// DATA KNITTO (diperbarui dari CSV)
+// =========================
+const dataKnitto = {
+  "COMBED BABY TERRY 36 INCH|240-260|36\"": {"MISTY SEDANG": {roll: 125000}, "MUDA": {roll: 103000}, "PUTIH": {roll: 98000}, "SEDANG": {roll: 106000}, "TUA": {roll: 109000}},
+"COMBED BABY TERRY 45 INCH|240-260|45\"": {"JET BLACK": {roll: 119500}, "MISTY SEDANG": {roll: 125000}, "MUDA": {roll: 103000}, "SEDANG": {roll: 106000}, "TUA": {roll: 109000}},
+"COMBED STRIPES 30S NEW TYPE 1|140-150|72\"": {"MISTY SEDANG": {roll: 126000}, "MUDA PUTIH": {roll: 138500}, "SEDANG PUTIH": {roll: 140000}, "TUA PUTIH": {roll: 141000}},
+"COMBED STRIPES 30S NEW TYPE 3|140-150|72\"": {"MISTY SEDANG": {roll: 126000}, "MUDA PUTIH": {roll: 138500}, "SEDANG PUTIH": {roll: 140000}, "TUA PUTIH": {roll: 141000}},
+"COMBED STRIPES 30S TYPE 1|140-150|72\"": {"MISTY SEDANG": {roll: 126000}, "MUDA PUTIH": {roll: 138500}, "SEDANG PUTIH": {roll: 140000}, "TUA MUDA": {roll: 143000}, "TUA PUTIH": {roll: 141000}, "TUA SEDANG": {roll: 145000}},
+"COMBED STRIPES 30S TYPE 2|140-150|72\"": {"MISTY SEDANG": {roll: 132000}, "MUDA PUTIH": {roll: 138000}, "SEDANG PUTIH": {roll: 140000}, "TUA PUTIH": {roll: 142000}},
+"COMBED STRIPES 30S TYPE 3|140-150|72\"": {"MISTY SEDANG": {roll: 126000}, "MUDA PUTIH": {roll: 138500}, "SEDANG PUTIH": {roll: 140000}, "TUA PUTIH": {roll: 141000}},
+"COTTON BAMBOO 24S|180-190|42\"": {"MUDA": {roll: 103500}, "PUTIH": {roll: 98500}, "SEDANG": {roll: 106500}, "TUA": {roll: 109500}, "TUA SPC": {roll: 112500}},
+"COTTON BAMBOO 30S|160-170|42\"": {"MISTY SEDANG": {roll: 140000}, "MUDA": {roll: 105500}, "PUTIH": {roll: 100500}, "SEDANG": {roll: 108500}, "TUA": {roll: 111500}, "TUA SPC": {roll: 114500}, "TUA SPC 2": {roll: 117500}},
+"COTTON CARDED 24S|175-185|42\"": {"PUTIH": {roll: 87000}, "TUA": {roll: 98000}},
+"COTTON CARDED 30S|140-150|42\"": {"JET BLACK": {roll: 103000}, "MUDA": {roll: 94000}, "PUTIH": {roll: 89000}, "SEDANG": {roll: 97000}, "TUA": {roll: 100000}, "TUA SPC": {roll: 103000}, "TUA SPC 2": {roll: 109000}},
+"COTTON COMBED 16S HEAVY|270|45\"": {"JET BLACK": {roll: 108000}},
+"COTTON COMBED 16S|235-245|45\"": {"JET BLACK": {roll: 108000}, "MUDA": {roll: 99000}, "PUTIH": {roll: 94000}, "SEDANG": {roll: 102000}, "TUA": {roll: 105000}},
+"COTTON COMBED 18S|230-240|42\"": {"PUTIH": {roll: 100500}, "TUA": {roll: 112500}},
+"COTTON COMBED 20S|200-210|42\"": {"JET BLACK": {roll: 108000}, "MISTY SEDANG": {roll: 122000}, "MUDA": {roll: 99000}, "PUTIH": {roll: 94000}, "SEDANG": {roll: 102000}, "TUA": {roll: 105000}, "TUA SPC": {roll: 110000}},
+"COTTON COMBED 24S|175-185|42\"": {"HITAM SULFUR": {roll: 103000}, "JET BLACK": {roll: 109000}, "MISTY SEDANG": {roll: 124000}, "MUDA": {roll: 100000}, "PUTIH": {roll: 95000}, "SEDANG": {roll: 103000}, "SEDANG MUDA": {roll: 101000}, "SEDANG TUA": {roll: 104000}, "TUA": {roll: 106000}, "TUA SPC": {roll: 109000}},
+"COTTON COMBED 28S|160-170|42\"": {"JET BLACK": {roll: 111000}, "MUDA": {roll: 102000}, "PUTIH": {roll: 97000}, "SEDANG": {roll: 105000}, "TUA": {roll: 108000}},
+"COTTON COMBED 30S ENZYME|140-150|42\"": {"JET BLACK": {roll: 117000}, "MUDA": {roll: 108000}, "PUTIH": {roll: 103000}, "SEDANG": {roll: 111000}, "TUA": {roll: 114000}},
+"COTTON COMBED 30S|140-150|42\"": {"HITAM SULFUR": {roll: 105000}, "JET BLACK": {roll: 111000}, "MISTY SEDANG": {roll: 127000}, "MUDA": {roll: 102000}, "PUTIH": {roll: 97000}, "SEDANG": {roll: 105000}, "SEDANG MUDA": {roll: 103000}, "SEDANG TUA": {roll: 106000}, "TUA": {roll: 108000}, "TUA SPC": {roll: 111000}},
+"COTTON COMBED 40S|Null|42\"": {"TUA": {roll: 123000}},
+"COTTON COMBED ENZYWASH 24S|175-185|Null\"": {"JET BLACK": {roll: 115000}, "MUDA": {roll: 106000}, "SEDANG": {roll: 109000}, "TUA": {roll: 112000}},
+"COTTON COMBED FLEECE|280-290|72\"": {"HITAM SULFUR": {roll: 117000}, "JET BLACK": {roll: 126000}, "MISTY SEDANG": {roll: 130000}, "MUDA": {roll: 117000}, "PUTIH": {roll: 112000}, "SEDANG": {roll: 120000}, "TUA": {roll: 123000}, "TUA SPC": {roll: 126000}, "TUA SPC 2": {roll: 129000}},
+"COTTON COMBED PIQUE DIAMOND 30S|180-190|45\"": {"MISTY SEDANG": {roll: 133000}, "MUDA": {roll: 107000}, "PUTIH": {roll: 102000}, "SEDANG": {roll: 110000}, "TUA": {roll: 113000}, "TUA SPC": {roll: 116000}},
+"COTTON GALAXY BLACK 30S|140-150|42\"": {"MISTY SEDANG": {roll: 129000}, "MUDA": {roll: 109000}, "PUTIH": {roll: 103000}, "SEDANG": {roll: 112000}},
+"COTTON GALAXY RAINBOW 30S|140-150|42\"": {"MUDA": {roll: 109000}, "PUTIH": {roll: 103000}},
+"COTTON GALAXY SCOTLIGHT 30S|140-150|42\"": {"MUDA": {roll: 109000}, "PUTIH": {roll: 103000}, "TUA": {roll: 115000}, "TUA SPC": {roll: 118000}},
+"COTTON GALAXY WHITE 30S|140-150|42\"": {"TUA": {roll: 115000}, "TUA SPC": {roll: 118000}},
+"COTTON SLUB 30S|150-160|42\"": {"MUDA": {roll: 108000}, "PUTIH": {roll: 102000}, "SEDANG": {roll: 111000}, "TUA": {roll: 114000}, "TUA SPC": {roll: 117000}},
+"CVC 20S|Null|42\"": {"MISTY SEDANG": {roll: 101000}, "TUA": {roll: 85500}},
+"CVC 24S|175-185|42\"": {"MISTY SEDANG": {roll: 103000}, "TUA": {roll: 87000}},
+"CVC 30S|150-160|42\"": {"MISTY SEDANG": {roll: 105000}},
+"CVC ASTRO 30S|140-150|42\"": {"TUA": {roll: 132000}, "TUA SPC": {roll: 135000}},
+"CVC FLEECE|280-290|72-80\"": {"JET BLACK": {roll: 115000}, "TUA": {roll: 112000}, "TUA SPC": {roll: 115000}, "TUA SPC 2": {roll: 122500}},
+"CVC FUZY 30S|140-150|42\"": {"MUDA": {roll: 114000}, "PUTIH": {roll: 108000}, "SEDANG": {roll: 117000}},
+"CVC NEW SLUB SIRO 30S|145-155|42\"": {"TUA": {roll: 117000}},
+"CVC PIQUE HEXAGON 24S|220-240|45\"": {"JET BLACK": {roll: 102000}, "MISTY SEDANG": {roll: 109000}, "MUDA": {roll: 93000}, "PUTIH": {roll: 88000}, "SEDANG": {roll: 96000}, "TUA": {roll: 99000}, "TUA SPC": {roll: 102000}, "TUA SPC 2": {roll: 105000}, "TWOTONE": {roll: 99000}},
+"CVC THREETONE 30S|150-160|42\"": {"MUDA": {roll: 106500}, "SEDANG": {roll: 106500}, "THREETONE": {roll: 106500}, "TUA": {roll: 106500}},
+"CVC TWOTONE 30S|150-160|42\"": {"TUA": {roll: 106500}, "TWOTONE": {roll: 106500}},
+"HEAVY COTTON COMBED FLEECE|330-350|72\"": {"JET BLACK": {roll: 126000}, "MISTY SEDANG": {roll: 131000}, "MUDA": {roll: 117000}, "PUTIH": {roll: 112000}, "SEDANG": {roll: 120000}, "TUA SPC": {roll: 126000}, "TUA SPC 2": {roll: 129000}},
+"HEAVY COTTON ROUGHFEEL|235-245|45\"": {"JET BLACK": {roll: 99000}, "MUDA": {roll: 90000}, "PUTIH": {roll: 85000}, "SEDANG": {roll: 93000}, "TUA": {roll: 96000}},
+"HERA RIB KNIT|230-250|72\"": {"MUDA": {roll: 77000}, "PUTIH": {roll: 77000}, "TUA": {roll: 77000}, "TUA SPC": {roll: 77000}},
+"POLYESTER ACTIVEDRY AERO|165-175|72\"": {"PUTIH": {roll: 70000}},
+"POLYESTER ACTIVEDRY DIAMOND|175-185|72\"": {"PUTIH": {roll: 70000}},
+"POLYESTER ACTIVEDRY EVOLT|158|72\"": {"PUTIH": {roll: 70000}, "TUA": {roll: 71000}},
+"POLYESTER ACTIVEDRY MARTON|175-185|72\"": {"PUTIH": {roll: 70000}, "TUA": {roll: 71000}},
+"POLYESTER ACTIVEDRY PIQUE|180|72\"": {"PUTIH": {roll: 74000}, "TUA": {roll: 74000}},
+"RIB COTTON COMBED 24S|250|30\"": {"MISTY SEDANG": {roll: 133000}, "MUDA": {roll: 109000}, "PUTIH": {roll: 104000}, "SEDANG": {roll: 112000}, "TUA": {roll: 115000}},
+"RIB COTTON COMBED 30S|200-210|26-30\"": {"MISTY SEDANG": {roll: 136000}, "MUDA": {roll: 111000}, "PUTIH": {roll: 106000}, "SEDANG": {roll: 114000}, "TUA": {roll: 117000}},
+"TENCEL MODAL COTTON 30S|150-160|42\"": {"JET BLACK": {roll: 126000}, "MUDA": {roll: 117000}, "PUTIH": {roll: 112000}, "SEDANG": {roll: 120000}, "TUA": {roll: 123000}}
+
+};
+
+// =========================
+// DATA NIRWANA
+// =========================
+const dataNirwana = {
+  "COMBED BCI ALOEVERA 30S|160|42": {"DARK": {roll: 142500}, "MEDIUM": {roll: 140500}, "WHITE": {roll: 138500}},
+"COMBED BCI BIOWASH 20S|200|42": {"DARK": {roll: 120000}, "MEDIUM": {roll: 119000}, "WHITE": {roll: 110000}},
+"COMBED BCI BIOWASH 24S|185|42": {"DARK": {roll: 124000}, "MEDIUM": {roll: 122000}, "SPECIAL": {roll: 129000}, "WHITE": {roll: 112000}},
+"COMBED BCI BIOWASH 30S|160|42": {"DARK": {roll: 126000}, "MEDIUM": {roll: 123000}, "MISTY": {roll: 142000}, "SPECIAL": {roll: 130000}, "WHITE": {roll: 114000}},
+"COMBED BCI COOLBREEZE 30S|160|42": {"DARK": {roll: 135000}, "MEDIUM": {roll: 133000}, "WHITE": {roll: 132000}},
+"COMBED BCI HYORD 16S|230|43": {"DARK": {roll: 118000}, "MEDIUM": {roll: 116000}, "WHITE": {roll: 107000}},
+"COMBED BCI HYORD 20S|200|42": {"DARK": {roll: 120000}, "MEDIUM": {roll: 118000}, "SPECIAL": {roll: 125000}, "WHITE": {roll: 107000}},
+"COMBED BCI HYORD 24S|185|42": {"DARK": {roll: 124000}, "MEDIUM": {roll: 122000}, "SPECIAL": {roll: 129000}, "WHITE": {roll: 119000}},
+"COMBED BCI HYORD 30S|160|42": {"DARK": {roll: 124000}, "MEDIUM": {roll: 122000}, "WHITE": {roll: 118000}},
+"COMBED BCI SUPERSOFT 16S|230|43": {"DARK": {roll: 112500}, "MEDIUM": {roll: 110500}, "WHITE": {roll: 109500}},
+"COMBED BCI SUPERSOFT 20S|200|42": {"DARK": {roll: 113500}, "MEDIUM": {roll: 111500}, "WHITE": {roll: 110500}},
+"COMBED BCI SUPERSOFT 24S|185|42": {"DARK": {roll: 115500}, "MEDIUM": {roll: 110500}, "SPECIAL": {roll: 120500}, "WHITE": {roll: 103500}},
+"COMBED BCI SUPERSOFT 30S|160|42": {"DARK": {roll: 118500}, "MEDIUM": {roll: 113500}, "MISTY": {roll: 142000}, "SPECIAL": {roll: 125000}, "WHITE": {roll: 105500}},
+"COTTON CARDED SOFT 24S|185|42": {"DARK": {roll: 105000}, "MEDIUM": {roll: 102000}, "WHITE": {roll: 93000}},
+"COTTON CARDED SOFT 30S|160|42": {"DARK": {roll: 107000}, "MEDIUM": {roll: 104000}, "WHITE": {roll: 95000}},
+"COTTON FLEECE 440GSM|440|72": {"DARK": {roll: 138000}},
+"COTTON FLEECE ALOE 345GSM|Null|Null": {"DARK": {roll: 143000}, "MEDIUM": {roll: 140000}, "WHITE": {roll: 131000}},
+"COTTON FLEECE DILAN 280GSM|280|72": {"DARK": {roll: 125000}, "MEDIUM": {roll: 122000}, "WHITE": {roll: 113000}},
+"COTTON FLEECE STANDART NT & UK 280GSM|280|72": {"DARK": {roll: 134000}, "MEDIUM": {roll: 131000}, "MISTY": {roll: 144000}, "SPECIAL": {roll: 139000}, "SULPHUR": {roll: 131000}, "WHITE": {roll: 122000}},
+"COTTON FLEECE STANDART NT & UK 330GSM|330|72": {"DARK": {roll: 133000}, "MEDIUM": {roll: 130000}, "MISTY": {roll: 143000}, "SPECIAL": {roll: 138000}, "SULPHUR": {roll: 128000}, "WHITE": {roll: 121000}},
+"CVC PIQUE 24S|210|42": {"DARK": {roll: 116000}, "MEDIUM": {roll: 113000}, "MISTY": {roll: 121000}, "SPECIAL": {roll: 126000}, "WHITE": {roll: 104000}},
+"DK MICRO COTTON PIQUE SPANDEX|300|79": {"DARK": {roll: 110000}, "MEDIUM": {roll: 107000}, "WHITE": {roll: 98000}},
+"FLEECE POLY UK 360GSM|375|74": {"WHITE": {roll: 82000}},
+"HEAVY WEIGHT COTTON AUSTRALIA COOLBREEZE 250GSM|250|43": {"DARK": {roll: 135000}, "MEDIUM": {roll: 132000}, "SPECIAL": {roll: 140000}, "WHITE": {roll: 123000}},
+"HEAVY WEIGHT COTTON AUSTRALIA COOLBREEZE 265GSM|265|42": {"DARK": {roll: 134000}, "MEDIUM": {roll: 131000}, "WHITE": {roll: 122000}},
+"HEAVY WEIGHT COTTON COTTON AMERICA COOLBREEZE 320GSM|320|38": {"DARK": {roll: 134000}, "MEDIUM": {roll: 131000}, "WHITE": {roll: 122000}},
+"HEAVY WEIGHT COTTON JAPAN ALOE 200GSM|200|42": {"DARK": {roll: 136000}, "MEDIUM": {roll: 133000}, "WHITE": {roll: 124000}},
+"MICRO COTTON PIQUE 225|225|69": {"DARK": {roll: 115000}, "MEDIUM": {roll: 112000}, "WHITE": {roll: 103000}},
+"MICRO COTTON SEERSUCKER|220|74": {"DARK": {roll: 122000}, "MEDIUM": {roll: 119000}, "WHITE": {roll: 110000}},
+"MICRO DANBOWL 200GSM|200|42": {"DARK": {roll: 122000}, "MEDIUM": {roll: 119000}, "WHITE": {roll: 110000}},
+"MICRO DANBOWL COOLBREEZE 175GSM|175|72": {"DARK": {roll: 127000}, "MEDIUM": {roll: 124000}, "WHITE": {roll: 115000}},
+"MICRO DANBOWL COOLBREEZE 210GSM|210|72": {"DARK": {roll: 127000}, "MEDIUM": {roll: 124000}, "WHITE": {roll: 115000}},
+"MICRO DANBOWL COOLBREEZE 290GSM|290|77": {"DARK": {roll: 122000}, "MEDIUM": {roll: 119000}, "WHITE": {roll: 110000}},
+"POLY PIQUE 20S|230|36": {"DARK": {roll: 65500}, "MEDIUM": {roll: 62500}, "SPECIAL": {roll: 70500}, "WHITE": {roll: 57500}}
+};
+
+// =========================
+// FUNGSIONALITAS DROPDOWN
+// =========================
+function isiDropdown(selJenis, selWarna, data, idHarga) {
+  selJenis.innerHTML = "<option value=''>-- Pilih Jenis Kain --</option>";
+  for (let jenis in data) {
+    const opt = document.createElement("option");
+    opt.value = jenis;
+    opt.textContent = jenis;
+    selJenis.appendChild(opt);
+  }
+
+  selJenis.addEventListener("change", function() {
+    const selected = this.value;
+    selWarna.innerHTML = "<option value=''>-- Pilih Warna --</option>";
+    if (selected && data[selected]) {
+      Object.keys(data[selected]).forEach(w => {
+        const opt = document.createElement("option");
+        opt.value = w;
+        opt.textContent = w;
+        selWarna.appendChild(opt);
+      });
+    }
+    document.getElementById(idHarga).textContent = "Rp -";
+  });
+
+  selWarna.addEventListener("change", function() {
+    updateHarga(selJenis, selWarna, data, idHarga);
+  });
+}
+
+function formatRp(num) {
+  return "Rp " + num.toLocaleString("id-ID");
+}
+
+function updateHarga(selJenis, selWarna, data, idHarga) {
+  const jenis = selJenis.value;
+  const warna = selWarna.value;
+  const hargaEl = document.getElementById(idHarga);
+  if (jenis && warna && data[jenis] && data[jenis][warna]) {
+    hargaEl.textContent = formatRp(data[jenis][warna].roll);
+  } else {
+    hargaEl.textContent = "Rp -";
+  }
+  updateKesimpulan();
+}
+
+function getHargaNum(id) {
+  const txt = document.getElementById(id).textContent.replace(/[^\d]/g, "");
+  return parseInt(txt || "0");
+}
+
+function updateKesimpulan() {
+  const hargaF = getHargaNum("hargaFabriku");
+  const hargaK = getHargaNum("hargaKnitto");
+  const hargaN = getHargaNum("hargaNirwana");
+  const list = [
+    { toko: "Fabriku", harga: hargaF },
+    { toko: "Knitto", harga: hargaK },
+    { toko: "Nirwana", harga: hargaN }
+  ].filter(h => h.harga > 0);
+  if (list.length < 2) return;
+  const termurah = list.reduce((a, b) => a.harga < b.harga ? a : b);
+  const termahal = list.reduce((a, b) => a.harga > b.harga ? a : b);
+  const selisih = (termahal.harga - termurah.harga).toLocaleString("id-ID");
+  document.getElementById("kesimpulan").innerHTML = `
+    <p><strong>Kesimpulan:</strong></p>
+    <p>💰 Termurah: <span class="highlight">${termurah.toko} (${termurah.harga.toLocaleString("id-ID")})</span></p>
+    <p>🔥 Termahal: <span class="highlight">${termahal.toko} (${termahal.harga.toLocaleString("id-ID")})</span></p>
+    <p>📊 Selisih: ${selisih}</p>
+  `;
+}
+
+// =========================
+// INISIALISASI
+// =========================
+isiDropdown(document.getElementById("jenisFabriku"), document.getElementById("warnaFabriku"), dataFabriku, "hargaFabriku");
+isiDropdown(document.getElementById("jenisKnitto"), document.getElementById("warnaKnitto"), dataKnitto, "hargaKnitto");
+isiDropdown(document.getElementById("jenisNirwana"), document.getElementById("warnaNirwana"), dataNirwana, "hargaNirwana");
+</script>
+
+</body>
+</html>
